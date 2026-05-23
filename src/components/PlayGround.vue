@@ -155,6 +155,124 @@ function handleMouseWheel(event: WheelEvent) {
 
 }
 
+const lastTouchDistance = ref(0);
+
+function getTouchDistance(t1: Touch, t2: Touch) {
+    const dx = t2.clientX - t1.clientX;
+    const dy = t2.clientY - t1.clientY;
+
+    return Math.sqrt(dx * dx + dy * dy);
+}
+
+function handleTouchStart(event: TouchEvent) {
+    const canvas = canvasRef.value;
+    if (!canvas) return;
+
+    // Single finger → pan
+    if (event.touches.length === 1) {
+        const touch = event.touches[0]!;
+        const rect = canvas.getBoundingClientRect();
+
+        panStartX.value = touch.clientX - rect.left;
+        panStartY.value = touch.clientY - rect.top;
+
+        isPanning.value = true;
+    }
+
+    // Two fingers → zoom
+    if (event.touches.length === 2) {
+        lastTouchDistance.value = getTouchDistance(
+            event.touches[0]!,
+            event.touches[1]!
+        );
+    }
+}
+
+function handleTouchMove(event: TouchEvent) {
+    const canvas = canvasRef.value;
+    if (!canvas) return;
+
+    const rect = canvas.getBoundingClientRect();
+
+    // ---------------- PAN ----------------
+    if (event.touches.length === 1 && isPanning.value) {
+        const touch = event.touches[0]!;
+
+        const currentX = touch.clientX - rect.left;
+        const currentY = touch.clientY - rect.top;
+
+        const diffX =
+            ((panStartX.value - currentX) / canvas.width) *
+            viewWidth.value;
+
+        const viewHeight =
+            (viewWidth.value * canvas.height) / canvas.width;
+
+        const diffY =
+            ((currentY - panStartY.value) / canvas.height) *
+            viewHeight;
+
+        centerX.value += diffX;
+        centerY.value += diffY;
+
+        panStartX.value = currentX;
+        panStartY.value = currentY;
+    }
+
+    // ---------------- PINCH ZOOM ----------------
+    if (event.touches.length === 2) {
+        event.preventDefault();
+
+        const touch1 = event.touches[0]!;
+        const touch2 = event.touches[1]!;
+
+
+        const newDistance = getTouchDistance(touch1, touch2);
+
+        const scale =
+            lastTouchDistance.value / newDistance;
+
+        const centerTouchX =
+            (touch1.clientX + touch2.clientX) / 2 - rect.left;
+
+        const centerTouchY =
+            (touch1.clientY + touch2.clientY) / 2 - rect.top;
+
+        const viewWidthOld = viewWidth.value;
+        const viewHeightOld =
+            (viewWidthOld * canvas.height) / canvas.width;
+
+        const pixelCenterX = canvas.width / 2;
+        const pixelCenterY = canvas.height / 2;
+
+        const ratioX =
+            (centerTouchX - pixelCenterX) / canvas.width;
+
+        const ratioY =
+            (pixelCenterY - centerTouchY) / canvas.height;
+
+        const viewWidthNew =
+            viewWidthOld * scale;
+
+        const viewHeightNew =
+            viewHeightOld * scale;
+
+        centerX.value +=
+            ratioX * (viewWidthOld - viewWidthNew);
+
+        centerY.value +=
+            ratioY * (viewHeightOld - viewHeightNew);
+
+        viewWidth.value = viewWidthNew;
+
+        lastTouchDistance.value = newDistance;
+    }
+}
+
+function handleTouchEnd() {
+    isPanning.value = false;
+}
+
 function handlextractImageFromCanvas() {
     const canvas = canvasRef.value;
     if (!canvas) return;
@@ -205,7 +323,8 @@ onBeforeUnmount(() => {
 
 <template>
     <div class="playground" ref="canvasWrapperRef">
-        <canvas ref="canvasRef" @mousedown="handleMouseDown" @mousemove="handleMouseMove"></canvas>
+        <canvas ref="canvasRef" @mousedown="handleMouseDown" @mousemove="handleMouseMove" @touchstart="handleTouchStart"
+            @touchmove="handleTouchMove" @touchend="handleTouchEnd"></canvas>
         <!-- @wheel="handleMouseWheel" -->
     </div>
 </template>
