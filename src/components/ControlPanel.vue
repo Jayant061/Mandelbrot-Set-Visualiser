@@ -40,6 +40,19 @@ function handleExtractImage() {
     align-items: flex-start;
     gap: 0.5rem;
     width: 30%;
+    max-height: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: #2626264a;
+    position: relative;
+        &::after{
+            content: "Developed by Jayant Thakur";
+            position: absolute;
+            bottom: 0.25rem;
+            left: 1rem;
+            font-family: sans-serif;
+            font-size: 0.75rem;
+        }
 
     .input-container {
         padding: 0.5rem;
