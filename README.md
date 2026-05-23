@@ -1,42 +1,153 @@
-# mandelbrot-set-visualiser
+# Mandelbrot Set Visualizer
 
-This template should help get you started developing with Vue 3 in Vite.
+An interactive and high-performance Mandelbrot Set visualizer built with Vue.js and TypeScript.  
+This project allows users to explore the Mandelbrot fractal in real time with smooth zooming, panning, adjustable iteration precision, and image exporting capabilities.
 
-## Recommended IDE Setup
+---
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+## Preview
 
-## Recommended Browser Setup
+### Repository
+https://github.com/Jayant061/Mandelbrot-Set-Visualiser
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+### Live Demo
+https://mandelbrot-set-visualizer-jt.netlify.app/
 
-## Type Support for `.vue` Imports in TS
+---
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## Features
 
-## Customize configuration
+- Real-time Mandelbrot Set rendering
+- Smooth zooming using mouse wheel
+- Click-and-drag panning support
+- Adjustable fractal center coordinates
+- Dynamic view width control
+- Configurable maximum iteration count for precision
+- Export current fractal view as PNG image
+- Dynamic favicon generation from live canvas render
+- Responsive canvas rendering with automatic resize handling
+- Optimized rendering using `requestAnimationFrame`
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+---
 
-## Project Setup
+## Tech Stack
 
-```sh
-npm install
+- Vue.js
+- TypeScript
+- HTML5 Canvas API
+- Composition API
+- SCSS / Scoped Styling
+
+---
+
+## Project Structure
+
+```bash
+src/
+├── components/
+│   ├── ControlPanel.vue
+│   └── Playground.vue
+├── composables/
+│   └── useMandelBrot.ts
 ```
 
-### Compile and Hot-Reload for Development
+---
 
-```sh
+## Core Functionalities
+
+### Mandelbrot Rendering
+The application calculates the escape-time algorithm for each pixel and maps iteration counts to RGB color intensities for visual rendering.
+
+### Zooming
+Users can zoom in and out using the mouse wheel while preserving cursor focus for a natural exploration experience.
+
+### Panning
+Click and drag functionality enables smooth navigation across the fractal plane.
+
+### Dynamic Precision
+The maximum iteration count can be increased for sharper and more detailed fractal rendering.
+
+### Export Snapshot
+Users can export the currently rendered Mandelbrot visualization as a PNG image.
+
+---
+
+## Installation
+
+```bash
+# Clone the repository
+git clone <your-repository-url>
+
+# Navigate into project directory
+cd <project-folder>
+
+# Install dependencies
+npm install
+
+# Start development server
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+---
 
-```sh
+## Build for Production
+
+```bash
 npm run build
 ```
+
+---
+
+## Controls
+
+| Action | Description |
+|---|---|
+| Mouse Wheel | Zoom In / Out |
+| Mouse Drag | Pan Across Fractal |
+| Center X / Y | Change fractal center |
+| View Width | Adjust visible area |
+| Max Iteration Count | Increase render precision |
+| Extract Image | Download current frame |
+
+---
+
+## Performance Optimizations
+
+- Debounced resize handling
+- Shared image buffer reuse
+- `requestAnimationFrame` based rendering
+- Reduced iterations during panning for smoother interaction
+
+---
+
+## Future Improvements
+
+- GPU acceleration using WebGL
+- Multi-threaded rendering with Web Workers
+- Custom color palettes
+- Minimap navigation
+- Bookmarkable fractal coordinates
+- Progressive rendering
+- Touch gesture support for mobile devices
+
+---
+
+## Mathematical Formula
+
+The Mandelbrot Set is generated using the recursive formula:
+
+```math
+z_{n+1} = z_n^2 + c
+```
+
+---
+
+## Author
+
+Developed by **Jayant Thakur**
+
+---
+
+## License
+
+This project is licensed under the MIT License.

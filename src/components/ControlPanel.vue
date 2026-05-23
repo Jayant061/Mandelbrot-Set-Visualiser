@@ -28,6 +28,7 @@ function handleExtractImage() {
                 v-model.lazy.number="maxIterationCount">
         </div>
         <button class="btn" @click="handleExtractImage">Extract Image</button>
+        <span class="footer">Developed by Jayant Thakur</span>
     </div>
 </template>
 
@@ -44,15 +45,6 @@ function handleExtractImage() {
     height: 100%;
     overflow: auto;
     background-color: #2626264a;
-    position: relative;
-        &::after{
-            content: "Developed by Jayant Thakur";
-            position: absolute;
-            bottom: 0.25rem;
-            left: 1rem;
-            font-family: sans-serif;
-            font-size: 0.75rem;
-        }
 
     .input-container {
         padding: 0.5rem;
@@ -124,6 +116,15 @@ function handleExtractImage() {
         width: 100%;
         margin-top: 1rem;
         text-align: center;
+    }
+
+    .footer {
+
+        margin-top: auto;
+        padding-top: 1rem;
+        font-family: sans-serif;
+        font-size: 0.75rem;
+
     }
 }
 </style>
