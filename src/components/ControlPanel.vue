@@ -75,6 +75,7 @@ function handleExtractImage() {
         type="number"
         name="julia-set-cr"
         id="juliaSetCr"
+        step="0.01"
         v-model.lazy.number="JuliaSetCr"
       />
     </div>
@@ -84,6 +85,7 @@ function handleExtractImage() {
         type="number"
         name="julia-set-ci"
         id="juliaSetCi"
+        step="0.01"
         v-model.lazy.number="JuliaSetCi"
       />
     </div>
