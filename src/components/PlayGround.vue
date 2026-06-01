@@ -154,6 +154,9 @@ function handleMouseWheel(event: WheelEvent) {
   const delta = event.deltaY;
   const canvas = canvasRef.value;
   if (!canvas) return;
+  if (event.ctrlKey) {
+    event.preventDefault();
+  }
   const viewWidthOld = viewWidth.value;
   const viewHeightOld = (viewWidthOld * canvas.height) / canvas.width;
 
